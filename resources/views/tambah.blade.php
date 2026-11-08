@@ -18,6 +18,7 @@
                         Kembali
                     </a>
                 </div>
+                
 
                 @if ($errors->any())
                     <div class="mb-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
@@ -60,7 +61,7 @@
                                
                             </select>
                         </div>
-
+                                    
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-slate-700">Logo</label>
                             <div class="rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 p-4">
@@ -76,7 +77,8 @@
                             </div>
                         </div>
                     </div>
-
+                 
+                
                      <div class="mt-6">
                         <label class="block text-sm font-medium text-slate-700">Gallery (6 Gambar)</label>
                         <div class="mt-3 grid gap-4 md:grid-cols-3">
@@ -92,6 +94,18 @@
                                     />
                                 </div>
                             @endfor
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 grid gap-6 md:grid-cols-2">
+                        <div class="space-y-2">
+                            <label for="whatsapp" class="block text-sm font-medium text-slate-700">WhatsApp</label>
+                            <input id="whatsapp" name="whatsapp" type="text" value="{{ old('whatsapp') }}" placeholder="Contoh: 628123456789" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-cyan-500 focus:bg-white" />
+                        </div>
+
+                        <div class="space-y-2">
+                            <label for="instagram" class="block text-sm font-medium text-slate-700">Instagram</label>
+                            <input id="instagram" name="instagram" type="text" value="{{ old('instagram') }}" placeholder="Contoh: @username" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-cyan-500 focus:bg-white" />
                         </div>
                     </div>
 

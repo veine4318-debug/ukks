@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('nama_website');
             $table->string('bio');
             $table->string('slug')->unique();
-            $table->string('logo');
             $table->timestamps();
 
         });

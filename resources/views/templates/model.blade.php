@@ -1,12 +1,4 @@
 @php
-    $gallery = [
-        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
-        'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80',
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80',
-        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
-        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80',
-        'https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=900&q=80',
-    ];
 
     $pricingPlans = [
         [
@@ -85,7 +77,7 @@
 
         .topbar {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             padding: 8px 0 20px;
         }
@@ -329,6 +321,7 @@
 
             .section-title { font-size: 2.3rem; }
         }
+
     </style>
 </head>
 <body>
@@ -345,8 +338,7 @@
             <h1 id="about-title" class="section-title">Tentang saya</h1>
             <div class="about-wrap">
                 <div class="portrait-frame">
-                    <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80" alt="Potret profil cat" />
-                </div>
+                <img src="{{ $websites->logo ? asset('storage/' . $websites->logo) : 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80' }}" alt="Potret profil cat" />                </div>
                 <div class="about-copy">
                     <h2 class="profile-name">{{ $websites -> nama_website }}</h2>
                     <p>{{ $websites -> bio }}</p>
@@ -354,11 +346,23 @@
             </div>
         </section>
 
+        @php
+            $galleryImages = $websites->gallery ?? [];
+
+            if (is_string($galleryImages)) {
+                $galleryImages = json_decode($galleryImages, true) ?? [];
+            }
+
+            if (!is_array($galleryImages)) {
+                $galleryImages = [];
+            }
+        @endphp
+
         <section class="gallery" aria-labelledby="gallery-title">
             <h2 id="gallery-title" class="section-title" style="font-size: clamp(1.9rem, 2.5vw, 2.5rem);">Gallery</h2>
             <div class="gallery-grid">
-                @foreach ($gallery as $image)
-                    <div class="gallery-item" style="background-image: url('{{ $image }}');"></div>
+                @foreach ($galleryImages as $image)
+                    <div class="gallery-item" style="background-image: url('{{ asset('storage/' . $image) }}');"></div>
                 @endforeach
             </div>
         </section>
@@ -387,11 +391,9 @@
                 <div class="contact-list">
                     <a href="#" class="social-link ig">Instagram</a>
                     <a href="#" class="social-link wa">Whatsapp</a>
-                    <a href="#" class="social-link fb">Facebook</a>
                 </div>
-                <div class="contact-portrait">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80" alt="Potret kontak" />
-                </div>
+
+                
             </div>
             <p class="footer-copy">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
