@@ -326,6 +326,10 @@
 </head>
 <body>
     <div class="page">
+        @php
+            $portfolio = $websites ?? $website ?? null;
+        @endphp
+
         <header class="topbar">
             <nav class="menu" aria-label="Navigasi utama">
                 <a href="#">Home</a>
@@ -338,16 +342,17 @@
             <h1 id="about-title" class="section-title">Tentang saya</h1>
             <div class="about-wrap">
                 <div class="portrait-frame">
-                <img src="{{ $websites->logo ? asset('storage/' . $websites->logo) : 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80' }}" alt="Potret profil cat" />                </div>
+                    <img src="{{ $portfolio && $portfolio->logo ? asset('storage/' . $portfolio->logo) : 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80' }}" alt="Potret profil cat" />
+                </div>
                 <div class="about-copy">
-                    <h2 class="profile-name">{{ $websites -> nama_website }}</h2>
-                    <p>{{ $websites -> bio }}</p>
+                    <h2 class="profile-name">{{ $portfolio->nama_website ?? 'Portfolio' }}</h2>
+                    <p>{{ $portfolio->bio ?? '' }}</p>
                 </div>
             </div>
         </section>
 
         @php
-            $galleryImages = $websites->gallery ?? [];
+            $galleryImages = $portfolio->gallery ?? [];
 
             if (is_string($galleryImages)) {
                 $galleryImages = json_decode($galleryImages, true) ?? [];

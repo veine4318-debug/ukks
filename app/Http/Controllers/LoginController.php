@@ -7,29 +7,43 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function index() {
+    public function index()
+    {
+        if (Auth::check()) {
+            return redirect('/');
+        }
+
         return view('login.index');
     }
 
-    public function login(Request $request) {
-    // Validasi Input
-    $request->validate([
-        'name'    => 'required',
-        'password' => 'required',
-    ]);
+    public function login(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
 
-    // Periksa Kredensial
-    if (Auth::attempt([
-        'name'    => $request->name,
-        'password' => $request->password,
-    ])) {
-        // Kalau Kredensial Cocok Arahkan ke Halaman Pengumuman
-        return redirect('/');
+        if (Auth::attempt([
+            'name' => $request->name,
+            'password' => $request->password,
+        ], $request->boolean('remember'))) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/');
+        }
+
+        return back()->withErrors([
+            'name' => 'Nama atau password salah. Silakan coba lagi.',
+        ])->onlyInput('name');
     }
 
-    return back()->withErrors([
-        'name' => 'name atau password salah. Silahkan coba lagi.'
-    ]);
-}
-    
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
 }
